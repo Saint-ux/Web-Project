@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
     if (!token) return res.status(401).json({ message: 'Malformed token' });
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'super_secret_key');
         req.user = decoded;
         next();
     } catch (error) {

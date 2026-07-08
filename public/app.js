@@ -1,9 +1,11 @@
 const API_URL = 'http://localhost:5000/api';
 let jwtToken = localStorage.getItem('token') || '';
 
-// If a token already exists on page load, expose the application dashboard view
+
 if (jwtToken) {
     document.getElementById('dashboardSection').style.display = 'block';
+    
+    fetchCourses(); 
 }
 
 async function handleLogin() {
@@ -22,7 +24,7 @@ async function handleLogin() {
 
         if (response.ok) {
             jwtToken = data.token;
-            localStorage.setItem('token', data.token); // Secure authorization token storage token session
+            localStorage.setItem('token', data.token); 
             statusText.style.color = 'green';
             statusText.innerText = `Welcome back, ${data.user.name}! Access Granted.`;
             document.getElementById('dashboardSection').style.display = 'block';
@@ -42,7 +44,7 @@ async function fetchCourses() {
 
     try {
         const response = await fetch(`${API_URL}/courses`, {
-            headers: { 'Authorization': `Bearer ${jwtToken}` } // Inject identity verification token header
+            headers: { 'Authorization': `Bearer ${jwtToken}` } 
         });
         const courses = await response.json();
 
@@ -91,7 +93,7 @@ async function handleCreateCourse() {
             fetchCourses();
         } else {
             statusText.style.color = 'red';
-            statusText.innerText = `Authorization Failure: ${data.message}`; // Safely demonstrates RBAC verification
+            statusText.innerText = `Authorization Failure: ${data.message}`; 
         }
     } catch (err) {
         statusText.innerText = 'Network request dispatch error.';
@@ -112,5 +114,36 @@ async function enrollCourse(courseId) {
         alert(data.message);
     } catch (err) {
         console.error(err);
+    }
+}
+
+async function handleRegister() {
+    const email = document.getElementById('emailInput').value;
+    const password = document.getElementById('passwordInput').value;
+    const statusText = document.getElementById('authStatus');
+
+    try {
+        const response = await fetch(`${API_URL}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                name: 'Test Student', 
+                email: email, 
+                password: password,
+                role: 'admin' 
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            statusText.style.color = 'green';
+            statusText.innerText = 'Registration successful! Now click Login.';
+        } else {
+            statusText.style.color = 'red';
+            statusText.innerText = data.message || 'Registration failed.';
+        }
+    } catch (err) {
+        statusText.innerText = 'Cannot reach API Gateway server.';
     }
 }

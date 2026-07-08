@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-
+const db = require('../models'); 
+const User = db.User;
 exports.register = async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
@@ -27,7 +27,7 @@ exports.login = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-        const token = jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET || 'super_secret_key', { expiresIn: '1h' });
         res.json({ token, user: { id: user.id, name: user.name, role: user.role } });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });

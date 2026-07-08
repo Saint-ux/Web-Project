@@ -1,6 +1,6 @@
 const { Course, User } = require('../models');
 
-// 1. Get all available courses
+
 exports.getAllCourses = async (req, res) => {
     try {
         const courses = await Course.findAll();
@@ -10,7 +10,7 @@ exports.getAllCourses = async (req, res) => {
     }
 };
 
-// 2. Create a new course (ADMIN ONLY - Role-based authorization check)
+
 exports.createCourse = async (req, res) => {
     try {
         if (req.user.role !== 'admin') {
@@ -26,11 +26,11 @@ exports.createCourse = async (req, res) => {
     }
 };
 
-// 3. Enroll a student into a course
+
 exports.enrollInCourse = async (req, res) => {
     try {
         const { courseId } = req.body;
-        const userId = req.user.userId; // Securely pulled from verified JWT token payload
+        const userId = req.user.userId; 
 
         const user = await User.findByPk(userId);
         const course = await Course.findByPk(courseId);
@@ -39,7 +39,7 @@ exports.enrollInCourse = async (req, res) => {
             return res.status(404).json({ message: 'Course not found' });
         }
 
-        // Relational connection using Sequelize's automatic mixin method
+       
         await user.addCourse(course);
 
         res.json({ message: `Successfully enrolled in ${course.title}` });

@@ -3,7 +3,7 @@ const router = express.Router();
 const courseController = require('../controllers/courseController');
 const authMiddleware = require('../middleware/auth');
 
-// Protect all course routes with JWT middleware
+
 router.use(authMiddleware);
 
 router.get('/', courseController.getAllCourses);
