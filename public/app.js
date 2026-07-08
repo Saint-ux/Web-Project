@@ -147,3 +147,20 @@ async function handleRegister() {
         statusText.innerText = 'Cannot reach API Gateway server.';
     }
 }
+
+// Inside public/app.js at the absolute bottom
+function handleLogout() {
+    // 1. Wipe out the token from the browser session storage
+    localStorage.removeItem('token');
+    jwtToken = '';
+
+    // 2. Clear any success messages and input fields
+    document.getElementById('authStatus').innerText = '';
+    document.getElementById('emailInput').value = '';
+    document.getElementById('passwordInput').value = '';
+
+    // 3. Hide the protected dashboard view again
+    document.getElementById('dashboardSection').style.display = 'none';
+    
+    alert('Logged out successfully. Secure session terminated.');
+}
