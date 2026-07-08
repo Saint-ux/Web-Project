@@ -1,7 +1,7 @@
 {
   "name": "web-project",
   "version": "1.0.0",
-  "description": "",
+  "description": "Individual Capstone Project - Relational Course Management Portal Backend Engine.",
   "main": "index.js",
   "scripts": {
   "start": "node server.js",
