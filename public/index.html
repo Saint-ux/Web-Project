@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information & Course Portal</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; background-color: #f4f6f9; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { background-color: #0066cc; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #0052a3; }
+        .course-card { background: #f9f9f9; padding: 15px; margin-top: 10px; border-left: 5px solid #0066cc; border-radius: 4px; }
+        .auth-box { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🎓 Student & Course Portal Backend Consumer</h2>
+        
+        <div id="authSection" class="auth-box">
+            <h3>Account Access</h3>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="emailInput" placeholder="student@example.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="passwordInput" placeholder="••••••••">
+            </div>
+            <button onclick="handleLogin()">Login to Dashboard</button>
+            <p id="authStatus" style="color: green; font-weight: bold;"></p>
+        </div>
+
+        <div id="dashboardSection" style="display: none;">
+            <h3>Available Courses</h3>
+            <button onclick="fetchCourses()">🔄 Refresh Course Directory</button>
+            <div id="courseContainer"></div>
+
+            <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+
+            <h3>➕ Add New Course (Admin Role Required)</h3>
+            <div class="form-group">
+                <label>Course Title</label>
+                <input type="text" id="courseTitle">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="courseDesc" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Instructor Name</label>
+                <input type="text" id="courseInstructor">
+            </div>
+            <button onclick="handleCreateCourse()">Publish Course Structure</button>
+            <p id="courseStatus" style="color: red;"></p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
